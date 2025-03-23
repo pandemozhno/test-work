@@ -1,8 +1,13 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <CButton preloader>Далее</CButton>
   </div>
 </template>
+
+<script setup>
+import CButton from '@/components/CButton.vue'
+
+</script>
 
 <style lang="scss">
 </style>

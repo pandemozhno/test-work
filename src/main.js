@@ -1,5 +1,6 @@
 import './assets/reset.scss'
 import './assets/pallete.scss'
+import './assets/animations.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

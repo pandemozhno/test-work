@@ -1,5 +1,16 @@
 /* color palette */
 :root {
-  --white: #fff;
-  --black: #000;
+  --light: #FEFFFE;
+  --grey:#767676;
+  --grey-300: #EDEDED;
+  --dark: #25272C;
+  --dark-300: #797979;
+  --green: #96D394;
+  --green-300: #CCE6CC;
+  --green-600: #F8FEF8;
+
+  --green-gradient-600: linear-gradient(145deg, rgba(248,254,248,1) 0%, rgba(204,230,204,1) 100%);
+  --green-gradient-300: linear-gradient(145deg, rgba(204,230,204,1) 0%, rgba(150,211,148,1) 100%);
 }
+
+
