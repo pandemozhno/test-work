@@ -2,16 +2,16 @@
     <div class="c-tabs">
         <div class="c-tabs__headers">
             <div
-                v-for="header in headers"
-                :class="['c-tabs__header', { 'c-tabs__header_active': isActive(header.value) }]"
-                @click="setActive(header.value)"
-            > {{ header.title }} </div>
+                v-for="tab in tabs"
+                :class="['c-tabs__header', { 'c-tabs__header_active': isActive(tab.value) }]"
+                @click="setActive(tab.value)"
+            > {{ tab.title }} </div>
         </div>
         <div
             class="c-tabs__content"
         >
-            <template v-for="header in headers">
-                <slot v-if="isActive(header.value)" :name="header.value"/>
+            <template v-for="tab in tabs">
+                <slot v-if="isActive(tab.value)" :name="tab.value"/>
             </template>
         </div>
     </div>
@@ -21,20 +21,15 @@
 import { ref } from "vue"
 
 const {
-    rows,
-    headers
+    tabs
 } = defineProps({
-    rows: {
-        type: Array,
-        default: () => []
-    },
-    headers: {
+    tabs: {
         type: Array,
         default: () => []
     }
 })
 
-const activeTab = ref(headers[0].value)
+const activeTab = ref(tabs[0].value)
 
 // Active methods
 function isActive (value) {
@@ -44,8 +39,6 @@ function isActive (value) {
 function setActive (value) {
     activeTab.value = value
 }
-
-// 
 
 </script>
 

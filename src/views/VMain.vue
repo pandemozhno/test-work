@@ -1,8 +1,7 @@
 <template>
   <div class="main">
     <CTabs
-      :headers="headers"
-      :rows="rows"
+      :tabs="headers"
     >
       <template #form>
         <CForm></CForm>
