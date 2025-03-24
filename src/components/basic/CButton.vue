@@ -1,6 +1,7 @@
 <template>
     <button
         :class="['c-button', {'c-button_disabled': disabled }, {'c-button_preloader': preloader }]"
+        @click="onClick"
     >
         <CIcon
             v-if="preloader"
@@ -13,6 +14,10 @@
 
 <script setup>
 import CIcon from './CIcon.vue'
+
+const emit = defineEmits([
+    'click'
+])
 
 const {
     preloader,
@@ -27,6 +32,12 @@ const {
         default: false
     }
 })
+
+function onClick () {
+    if (disabled) return
+    emit('click')
+}
+
 </script>
 
 <style lang="scss">
@@ -34,8 +45,8 @@ const {
     outline: 0;
     border: 0;
     background: var(--green-gradient-600);
-    min-width: 10rem;
-    min-height: 3rem;
+    min-width: 8rem;
+    min-height: 2rem;
     border-radius: .4rem;
     color: var(--dark);
     font-weight: 600;

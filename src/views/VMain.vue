@@ -1,14 +1,18 @@
 <template>
   <div class="main">
     <CTabs
-      :tabs="headers"
+      class="main__tabs"
+      :tabs="tabs"
     >
       <template #form>
-        <CForm></CForm>
+        <CForm />
       </template>
 
       <template #data>
-        <CTable>
+        <CTable
+          :headers="headers"
+          :rows="records"
+        >
         </CTable>
       </template>
 
@@ -19,17 +23,38 @@
 <script setup>
 import CTabs from '@/components/basic/CTabs.vue'
 import CForm from '@/components/composite/CForm.vue'
+import CTable from '@/components/basic/CTable.vue'
+import { useRecordsStore } from "@/stores/records.js"
+import { storeToRefs } from 'pinia'
+import { reactive } from 'vue'
 
-const headers = [
+// tabs
+const tabs = [
   { title: 'Форма', value: "form" },
   { title: 'Данные', value: "data" }
 ]
 
-const rows = []
+// table
+const headers = [
+  { title: 'ФИО', value: 'fio' },
+  { title: 'Дата рождения', value: 'birthday' },
+  { title: 'Номер телефона', value: 'phone' },
+  { title: 'Электронная почта', value: 'email' }
+]
+
+const {
+  records
+} = storeToRefs(useRecordsStore())
+
 </script>
 
 <style lang="scss">
 .main {
+  padding-top: 4rem;
+  &__tabs {
+    width: 80%;
+    margin: 0 auto;
+  }
 
 }
 </style>

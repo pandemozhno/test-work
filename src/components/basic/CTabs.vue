@@ -29,7 +29,7 @@ const {
     }
 })
 
-const activeTab = ref(tabs[0].value)
+const activeTab = ref(tabs.find(() => true).value)
 
 // Active methods
 function isActive (value) {
@@ -60,7 +60,9 @@ function setActive (value) {
             border-bottom: solid 2px var(--green);
         }
     }
-
+    &__content {
+        padding-top: 3rem;
+    }
 }
 </style>
   
