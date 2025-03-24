@@ -3,6 +3,8 @@
     <CTabs
       class="main__tabs"
       :tabs="tabs"
+      @change="setPageHash"
+      active="form"
     >
       <template #form>
         <CForm />
@@ -18,7 +20,6 @@
           </template>
         </CTable>
       </template>
-
     </CTabs>
   </div>
 </template>
@@ -30,6 +31,14 @@ import CTable from '@/components/basic/CTable.vue'
 import { useRecordsStore } from "@/stores/records.js"
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+// set page hash
+const router = useRouter()
+function setPageHash(value) {
+  router.push({  hash: `#${value}` })
+}
+setPageHash('form')
 
 // tabs
 const tabs = [
@@ -45,12 +54,11 @@ const headers = [
   { title: 'Электронная почта', value: 'email' }
 ]
 
-
+// TODO: to composables
 function formattedDate(payload) {
   let date = new Date(payload)
   return date.toLocaleDateString("ru-RU")
 }
-
 
 const {
   records
@@ -65,6 +73,5 @@ const {
     width: 80%;
     margin: 0 auto;
   }
-
 }
 </style>

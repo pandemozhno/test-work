@@ -9,7 +9,7 @@
         </div>
         <div
             class="c-tabs__content"
-        >
+        >   
             <template v-for="tab in tabs">
                 <slot v-if="isActive(tab.value)" :name="tab.value"/>
             </template>
@@ -18,18 +18,33 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watch } from "vue"
+import { useRoute } from "vue-router" 
+
+const route  = useRoute();
+
+const emit = defineEmits([
+    'change'
+])
+
+// set active tab from route
+watch(route, async (newRoute, oldRoute) => setActive(newRoute.hash.substring(1)))
 
 const {
-    tabs
+    tabs,
+    active
 } = defineProps({
     tabs: {
         type: Array,
         default: () => []
+    },
+    active: {
+        type: String,
+        default: null
     }
 })
 
-const activeTab = ref(tabs.find(() => true).value)
+const activeTab = ref(active || tabs.find(() => true).value)
 
 // Active methods
 function isActive (value) {
@@ -38,6 +53,7 @@ function isActive (value) {
 
 function setActive (value) {
     activeTab.value = value
+    emit('change', value)
 }
 
 </script>
