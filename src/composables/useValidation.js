@@ -6,9 +6,12 @@ function useValidation(schema) {
     const check = v.compile(schema)
     const validationResult = ref([])
     const valid = ref(false)
+    // check field have once focus event, then return message
+    const canShowError = new Set()
 
     function validate(fields) {
-        validationResult.value = check(fields)
+        let errorsList = check(fields)
+        validationResult.value = errorsList
         if (validationResult.value.length === 0) {
             valid.value = true
         } else if (!Array.isArray(validationResult.value)) {
@@ -16,13 +19,17 @@ function useValidation(schema) {
         } else {
             valid.value = false
         }
+
         return valid.value
     }
 
     function resetMessage(field) {
-        if (!Array.isArray(validationResult.value) || validationResult.value.length === 0) return
-        const i = validationResult.value.findIndex(e => e.field === field)
-        if (i >= 0) validationResult.value.splice(i, 1)
+        // canShowError
+        canShowError.add(field)
+        
+        if (typeof validationResult.value === 'boolean' || validationResult.value.length === 0) return
+        const fieldIndex = validationResult.value.findIndex(e => e.field === field)
+        if (fieldIndex >= 0) validationResult.value.splice(fieldIndex, 1)
     }
 
     function reset() {
@@ -30,9 +37,12 @@ function useValidation(schema) {
     }
 
     function getMessage(field) {
-        if (!Array.isArray(validationResult.value) || validationResult.value.length === 0) return
-        const i = validationResult.value.findIndex(e => e.field === field)
-        return validationResult?.value[i]?.message || null
+        // canShowError
+        if (!canShowError.has(field)) return null
+
+        if (typeof validationResult.value === 'boolean' || validationResult.value.length === 0) return
+        const fieldIndex = validationResult.value.findIndex(e => e.field === field)
+        return validationResult?.value[fieldIndex]?.message || null
     }
 
     return {

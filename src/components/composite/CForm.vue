@@ -4,6 +4,7 @@
             v-model="form.fio"
             placeholder="ФИО"
             :message="getMessage('fio')"
+            @blur="validate(form)"
             @input="validate(form)"
             @focus="resetMessage('fio')"
         />
@@ -12,6 +13,7 @@
             type="date"
             placeholder="Дата рождения"
             :message="getMessage('birthday')"
+            @blur="validate(form)"
             @input="validate(form)"
             @focus="resetMessage('birthday')"
         />
@@ -19,6 +21,7 @@
             v-model="form.phone"
             placeholder="Номер телефона +71234567890"
             :message="getMessage('phone')"
+            @blur="validate(form)"
             @input="validate(form)"
             @focus="resetMessage('phone')"
         />
@@ -26,6 +29,7 @@
             v-model="form.email"
             placeholder="Электронная помощь"
             :message="getMessage('email')"
+            @blur="validate(form)"
             @input="validate(form)"
             @focus="resetMessage('email')"
         />
@@ -47,25 +51,14 @@ import { reactive, ref } from "vue"
 const preload = ref(false)
 
 const form = reactive({
-  phone: null,
   fio: null,
-  email: null,
-  birtday: null
+  birtday: null,
+  phone: null,
+  email: null
+  
 })
 
 const schema = {
-    phone: {
-        type: "string",
-        messages: {
-            required: "Пожалуйстa, введите номер телефона",
-            phoneNumber: "Введите корректный номер телефона"
-        },
-        custom: (v, errors) => {
-            if (v === null || v === undefined) return
-            if (!v.startsWith("+")) errors.push({ type: "phoneNumber" })
-            return v.replace(/[^\d+]/g, ""); 
-        }
-    },
     fio: {
         type: "string",
         messages: {
@@ -76,6 +69,20 @@ const schema = {
         type: "string",
         messages: {
             required: "Пожалуйстa, введите дату рождения"
+        }
+    },
+    phone: {
+        type: "string",
+        min: 11,
+        messages: {
+            required: "Пожалуйстa, введите номер телефона",
+            phoneNumber: "Введите корректный номер телефона",
+            stringMin: "Введите корректный номер телефона"
+        },
+        custom: (v, errors) => {
+            if (v === null || v === undefined) return
+            if (!v.startsWith("+")) errors.push({ type: "phoneNumber" })
+            return v.replace(/[^\d+]/g, ""); 
         }
     },
     email: {
