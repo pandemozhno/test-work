@@ -4,34 +4,34 @@
             v-model="form.fio"
             placeholder="ФИО"
             :message="getMessage('fio')"
-            @blur="validate({ fio: form.fio })"
+            @input="validate(form)"
             @focus="resetMessage('fio')"
         />
         <CInput
-            v-model="form.birtday"
+            v-model="form.birthday"
             type="date"
             placeholder="Дата рождения"
             :message="getMessage('birthday')"
-            @blur="validate({ birtday: form.birthday })"
+            @input="validate(form)"
             @focus="resetMessage('birthday')"
         />
         <CInput
             v-model="form.phone"
             placeholder="Номер телефона +71234567890"
             :message="getMessage('phone')"
-            @blur="validate({ phone: form.phone })"
+            @input="validate(form)"
             @focus="resetMessage('phone')"
         />
         <CInput
             v-model="form.email"
             placeholder="Электронная помощь"
             :message="getMessage('email')"
-            @blur="validate({ email: form.email })"
+            @input="validate(form)"
             @focus="resetMessage('email')"
         />
         <CButton
             @click="send"
-            :disabled="valid"
+            :disabled="!valid"
             :preloader="preload"
         >Далее</CButton>
     </div>
@@ -57,7 +57,13 @@ const schema = {
     phone: {
         type: "string",
         messages: {
-            required: "Пожалуйстa, введите номер телефона"
+            required: "Пожалуйстa, введите номер телефона",
+            phoneNumber: "Введите корректный номер телефона"
+        },
+        custom: (v, errors) => {
+            if (v === null || v === undefined) return
+            if (!v.startsWith("+")) errors.push({ type: "phoneNumber" })
+            return v.replace(/[^\d+]/g, ""); 
         }
     },
     fio: {
@@ -75,7 +81,8 @@ const schema = {
     email: {
         type: "email",
         messages: {
-            required: "Пожалуйстa, введите ФИО"
+            required: "Пожалуйстa, введите Email",
+            email: "Пожалуйстa, введите корректный Email"
         }
     }
 };

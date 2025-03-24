@@ -13,6 +13,9 @@
           :headers="headers"
           :rows="records"
         >
+          <template #td-birthday="{ value }">
+            {{ formattedDate(value) }}
+          </template>
         </CTable>
       </template>
 
@@ -41,6 +44,13 @@ const headers = [
   { title: 'Номер телефона', value: 'phone' },
   { title: 'Электронная почта', value: 'email' }
 ]
+
+
+function formattedDate(payload) {
+  let date = new Date(payload)
+  return date.toLocaleDateString("ru-RU")
+}
+
 
 const {
   records

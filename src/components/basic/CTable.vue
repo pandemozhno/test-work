@@ -14,6 +14,7 @@
                 <td v-for="header in headers" class="c-table__td">
                     <slot
                         :name="`td-${header.value}`"
+                        :value="row[header.value]"
                     >{{ row[header.value] }}</slot>
                 </td>
             </tr>
@@ -50,9 +51,6 @@ const {
         font-weight: 600;
         padding: .5rem 1rem;
         border-right: solid 1px var(--dark-300);
-    }
-    &__tr {
-        
     }
     &__td {
         text-align: center;
