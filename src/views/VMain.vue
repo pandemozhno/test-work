@@ -11,14 +11,30 @@
       </template>
 
       <template #data>
-        <CTable
-          :headers="headers"
-          :rows="records"
-        >
-          <template #td-birthday="{ value }">
-            {{ formattedDate(value) }}
-          </template>
-        </CTable>
+        <template v-if="records.length === 0">
+          <div class="main__tabs-empty">
+            <div style="font-weight: 600; margin-bottom: 3rem;">Нет данных.</div>
+            <blockquote>
+              <p style="width: 18rem; color: var(--blue-500);">
+                …Все люди держатся за своё «я»,
+                один лишь я выбрал отказаться от этого.
+                Моё сердце подобно сердцу глупого человека, —
+                такое тёмное, такое неясное!…
+              </p>
+              <p style="margin-top: 1rem; color: var(--grey);">—Lao Tsu</p>
+            </blockquote>
+          </div>
+        </template>
+        <template v-else>
+          <CTable
+            :headers="headers"
+            :rows="records"
+          >
+            <template #td-birthday="{ value }">
+              {{ formattedDate(value) }}
+            </template>
+          </CTable>
+        </template>
       </template>
     </CTabs>
   </div>
@@ -72,6 +88,11 @@ const {
   &__tabs {
     width: 80%;
     margin: 0 auto;
+    &-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }
 </style>
